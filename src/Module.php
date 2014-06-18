@@ -99,7 +99,11 @@ class Module extends \Miny\Modules\Module
 
     private function setupAutoLoader(AutoLoader $autoLoader)
     {
-        if ($this->getConfiguration('options:cache', false)) {
+        $cacheDir = $this->getConfiguration('options:cache', false);
+        if ($cacheDir) {
+            if (!is_dir($cacheDir)) {
+                mkdir($cacheDir, 777, true);
+            }
             $autoLoader->register(
                 '\\' . $this->getConfiguration('options:cache_namespace'),
                 $this->getConfiguration('options:cache')
