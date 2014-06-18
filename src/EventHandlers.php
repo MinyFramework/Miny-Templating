@@ -10,7 +10,6 @@
 namespace Modules\Templating;
 
 use Minty\Environment;
-use Minty\iTemplatingController;
 use Miny\Controller\Controller;
 use Miny\CoreEvents;
 use Miny\Factory\AbstractConfigurationTree;
