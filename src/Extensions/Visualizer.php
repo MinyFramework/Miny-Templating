@@ -9,8 +9,8 @@
 
 namespace Modules\Templating\Extensions;
 
+use Minty\Extension;
 use Miny\Log\AbstractLog;
-use Modules\Templating\Extension;
 use Modules\Templating\Extensions\Miny\NodeTreeVisualizer;
 
 class Visualizer extends Extension

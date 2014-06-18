@@ -1,6 +1,0 @@
---TEST--
-Test the string concatenation operator
---TEMPLATE--
-{ 'foo' ~ 'bar' }
---EXPECT--
-foobar

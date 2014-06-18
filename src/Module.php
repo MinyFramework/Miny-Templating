@@ -9,12 +9,13 @@
 
 namespace Modules\Templating;
 
+use Minty\Environment;
 use Miny\Application\BaseApplication;
 use Miny\AutoLoader;
 use Miny\Factory\Container;
-use Modules\Templating\Extensions\Core;
-use Modules\Templating\Extensions\Debug;
-use Modules\Templating\Extensions\Optimizer;
+use Minty\Extensions\Core;
+use Minty\Extensions\Debug;
+use Minty\Extensions\Optimizer;
 
 class Module extends \Miny\Modules\Module
 {
@@ -30,7 +31,7 @@ class Module extends \Miny\Modules\Module
                 'fallback_tag'     => 'print',
                 'debug'            => $this->application->isDeveloperEnvironment()
             ),
-            'template_loader'            => __NAMESPACE__ . '\\TemplateLoaders\\FileLoader',
+            'template_loader'            => 'Minty\\TemplateLoaders\\FileLoader',
             'template_loader_parameters' => array(
                 '{@root}/templates',
                 'tpl'
@@ -48,13 +49,13 @@ class Module extends \Miny\Modules\Module
 
         $module = $this;
         $container->addAlias(
-            __NAMESPACE__ . '\\Environment',
+            'Minty\\Environment',
             function (Container $container) use ($module) {
                 return $module->setupEnvironment($container);
             }
         );
         $container->addAlias(
-            __NAMESPACE__ . '\\AbstractTemplateLoader',
+            'Minty\\AbstractTemplateLoader',
             $this->getConfiguration('template_loader')
         );
         $container->setConstructorArguments(
@@ -73,7 +74,7 @@ class Module extends \Miny\Modules\Module
     public function setupEnvironment(Container $container)
     {
         $env = new Environment(
-            $container->get(__NAMESPACE__ . '\\AbstractTemplateLoader'),
+            $container->get('Minty\\AbstractTemplateLoader'),
             $this->getConfiguration('options')
         );
 

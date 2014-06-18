@@ -1,8 +1,0 @@
---TEST--
-Test Print tag with variable
---TEMPLATE--
-{ $foo }
---DATA--
-array('foo' => 'bar')
---EXPECT--
-bar

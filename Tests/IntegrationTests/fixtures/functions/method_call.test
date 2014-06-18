@@ -1,9 +1,0 @@
---TEST--
-Test that methods can be called on objects
---TEMPLATE--
-{ do $foo.push(4) }
-{ $foo.pop() }
---DATA--
-array('foo' => new \SplStack())
---EXPECT--
-4

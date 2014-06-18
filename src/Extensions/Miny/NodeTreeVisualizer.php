@@ -9,15 +9,15 @@
 
 namespace Modules\Templating\Extensions\Miny;
 
+use Minty\Compiler\Node;
+use Minty\Compiler\Nodes\DataNode;
+use Minty\Compiler\Nodes\IdentifierNode;
+use Minty\Compiler\Nodes\OperatorNode;
+use Minty\Compiler\Nodes\RootNode;
+use Minty\Compiler\Nodes\TagNode;
+use Minty\Compiler\NodeVisitor;
 use Miny\Log\AbstractLog;
 use Miny\Log\Log;
-use Modules\Templating\Compiler\Node;
-use Modules\Templating\Compiler\Nodes\DataNode;
-use Modules\Templating\Compiler\Nodes\IdentifierNode;
-use Modules\Templating\Compiler\Nodes\OperatorNode;
-use Modules\Templating\Compiler\Nodes\RootNode;
-use Modules\Templating\Compiler\Nodes\TagNode;
-use Modules\Templating\Compiler\NodeVisitor;
 
 /**
  * Class NodeTreeVisualizer

@@ -1,6 +1,0 @@
---TEST--
-Test the bitwise or operator
---TEMPLATE--
-{ 4 b-or 5 }
---EXPECT--
-5

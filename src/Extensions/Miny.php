@@ -9,11 +9,11 @@
 
 namespace Modules\Templating\Extensions;
 
+use Minty\Compiler\TemplateFunction;
+use Minty\Extension;
 use Miny\Application\Dispatcher;
 use Miny\Factory\Container;
 use Miny\Router\RouteGenerator;
-use Modules\Templating\Compiler\TemplateFunction;
-use Modules\Templating\Extension;
 
 class Miny extends Extension
 {

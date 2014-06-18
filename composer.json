@@ -1,11 +1,12 @@
 {
     "name": "miny/templating",
-    "description": "The Templating package of the Miny Framework.",
+    "description": "The Templating module of the Miny Framework.",
     "minimum-stability": "dev",
     "license": "MIT",
     "type": "library",
     "require": {
         "php": ">=5.3.3",
+        "bugadani/minty": "dev-master",
         "miny/framework": "dev-master",
         "miny/annotation": "dev-master"
     },
