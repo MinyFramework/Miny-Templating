@@ -23,7 +23,7 @@ class Module extends \Miny\Modules\Module
     public function defaultConfiguration()
     {
         return array(
-            'options'                    => array(
+            'options'                     => array(
                 'global_variables' => array(),
                 'cache_namespace'  => 'Application\\Templating\\Cached',
                 'cache'            => 'templates/compiled',
@@ -31,8 +31,9 @@ class Module extends \Miny\Modules\Module
                 'fallback_tag'     => 'print',
                 'debug'            => $this->application->isDeveloperEnvironment()
             ),
-            'template_loader'            => 'Minty\\TemplateLoaders\\FileLoader',
-            'template_loader_parameters' => array(
+            'enable_node_tree_visualizer' => false,
+            'template_loader'             => 'Minty\\TemplateLoaders\\FileLoader',
+            'template_loader_parameters'  => array(
                 '{@root}/templates',
                 'tpl'
             )
@@ -86,10 +87,10 @@ class Module extends \Miny\Modules\Module
         $env->addExtension(new Optimizer());
         $env->addExtension($container->get(__NAMESPACE__ . '\\Extensions\\Miny'));
 
-        if ($env->getOption('debug', false)) {
+        if ($env->getOption('debug')) {
             $env->addExtension(new Debug());
 
-            if ($env->getOption('enable_node_tree_visualizer', false)) {
+            if ($this->getConfiguration('enable_node_tree_visualizer')) {
                 $env->addExtension($container->get(__NAMESPACE__ . '\\Extensions\\Visualizer'));
             }
         }
