@@ -42,7 +42,6 @@ class Miny extends Extension
         Dispatcher $dispatcher,
         RouteGenerator $routeGenerator
     ) {
-        parent::__construct();
         $this->container      = $container;
         $this->dispatcher     = $dispatcher;
         $this->routeGenerator = $routeGenerator;
