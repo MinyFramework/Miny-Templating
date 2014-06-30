@@ -10,11 +10,13 @@
 namespace Modules\Templating;
 
 use Minty\Environment;
+use Miny\Application\Events\FilterResponseEvent;
+use Miny\Application\Events\UncaughtExceptionEvent;
 use Miny\Controller\Controller;
+use Miny\Controller\Events\ControllerFinishedEvent;
+use Miny\Controller\Events\ControllerLoadedEvent;
 use Miny\CoreEvents;
 use Miny\Factory\AbstractConfigurationTree;
-use Miny\HTTP\Request;
-use Miny\HTTP\Response;
 use Modules\Annotation\Annotation;
 use Modules\Annotation\Comment;
 
@@ -54,8 +56,9 @@ class EventHandlers
         return $events;
     }
 
-    public function handleResponseCodes(Request $request, Response $response)
+    public function handleResponseCodes(FilterResponseEvent $event)
     {
+        $response     = $event->getHttpResponse();
         $responseCode = $response->getCode();
         foreach ($this->configuration['codes'] as $key => $handler) {
 
@@ -86,16 +89,17 @@ class EventHandlers
             $this->environment->render(
                 $templateName,
                 array(
-                    'request'  => $request,
+                    'request'  => $event->getRequest(),
                     'response' => $response
                 )
             );
         }
     }
 
-    public function handleException(\Exception $exception)
+    public function handleException(UncaughtExceptionEvent $event)
     {
-        $handlers = $this->configuration['exceptions'];
+        $exception = $event->getException();
+        $handlers  = $this->configuration['exceptions'];
         if (!is_array($handlers)) {
             $this->environment->render($handlers, array('exception' => $exception));
         } else {
@@ -109,8 +113,9 @@ class EventHandlers
         }
     }
 
-    public function onControllerLoaded($controller)
+    public function onControllerLoaded(ControllerLoadedEvent $event)
     {
+        $controller = $event->getController();
         if ($controller instanceof iTemplatingController) {
             $this->layoutMap = $controller->initLayouts();
         }
@@ -120,8 +125,12 @@ class EventHandlers
         }
     }
 
-    public function onControllerFinished($controller, $action, $returnValue)
+    public function onControllerFinished(ControllerFinishedEvent $event)
     {
+        $controller  = $event->getController();
+        $returnValue = $event->getReturnValue();
+        $action      = $event->getAction();
+
         if ($this->shouldNotRenderTemplate($controller, $returnValue)) {
             return;
         }
