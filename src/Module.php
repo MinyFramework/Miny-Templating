@@ -10,12 +10,12 @@
 namespace Modules\Templating;
 
 use Minty\Environment;
-use Miny\Application\BaseApplication;
-use Miny\AutoLoader;
-use Miny\Factory\Container;
 use Minty\Extensions\Core;
 use Minty\Extensions\Debug;
 use Minty\Extensions\Optimizer;
+use Miny\Application\BaseApplication;
+use Miny\AutoLoader;
+use Miny\Factory\Container;
 
 class Module extends \Miny\Modules\Module
 {
@@ -78,6 +78,10 @@ class Module extends \Miny\Modules\Module
             $container->get('Minty\\AbstractTemplateLoader'),
             $this->getConfiguration('options')
         );
+
+        /** @var $request \Miny\HTTP\Request */
+        $request = $container->get('Miny\\HTTP\\Request');
+        $env->addGlobalVariable('is_ajax', $request->isAjax());
 
         //Environment is a dependency of TemplateLoader so this line is needed
         //to avoid infinite recursion
