@@ -81,11 +81,9 @@ class Module extends \Miny\Modules\Module
 
         /** @var $request \Miny\HTTP\Request */
         $request = $container->get('Miny\\HTTP\\Request');
-        $env->addGlobalVariable('is_ajax', $request->isAjax());
 
-        //Environment is a dependency of TemplateLoader so this line is needed
-        //to avoid infinite recursion
-        $container->setInstance($env);
+        $env->addGlobalVariable('is_ajax', $request->isAjax());
+        $env->addGlobalVariable('is_internal_request', $request->isSubRequest());
 
         $env->addExtension(new Core());
         $env->addExtension(new Optimizer());
