@@ -81,9 +81,25 @@ class NodeTreeVisualizer extends NodeVisitor
             //Variable, name or function
             $string .= " ({$node->getData('name')})";
         } elseif ($node instanceof DataNode) {
-            $string .= " ({$node->stringify()})";
+            $string .= " ({$this->stringify($node)})";
         }
 
         return $string;
+    }
+
+    private function stringify(DataNode $node)
+    {
+        $value = $node->getValue();
+        if (is_bool($value)) {
+            return ($value ? 'true' : 'false');
+        } elseif (is_scalar($value)) {
+            return $value;
+        } elseif (is_array($value)) {
+            $count = count($value);
+
+            return "array [{$count}]";
+        } else {
+            return 'object';
+        }
     }
 }
