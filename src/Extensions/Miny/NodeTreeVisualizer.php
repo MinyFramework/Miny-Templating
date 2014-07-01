@@ -79,7 +79,7 @@ class NodeTreeVisualizer extends NodeVisitor
             $string .= " ({$symbols})";
         } elseif ($node instanceof IdentifierNode) {
             //Variable, name or function
-            $string .= " ({$node->getName()})";
+            $string .= " ({$node->getData('name')})";
         } elseif ($node instanceof DataNode) {
             $string .= " ({$node->stringify()})";
         }
