@@ -17,7 +17,7 @@ use Miny\Controller\Events\ControllerFinishedEvent;
 use Miny\Controller\Events\ControllerLoadedEvent;
 use Miny\CoreEvents;
 use Miny\Factory\AbstractConfigurationTree;
-use Modules\Annotation\Annotation;
+use Modules\Annotation\AnnotationReader;
 use Modules\Annotation\Comment;
 
 class EventHandlers
@@ -32,7 +32,7 @@ class EventHandlers
     public function __construct(
         AbstractConfigurationTree $configuration,
         Environment $environment,
-        Annotation $annotation = null
+        AnnotationReader $annotation = null
     ) {
         $this->configuration = $configuration;
         $this->annotation    = $annotation;
