@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.3.3",
         "bugadani/minty": "dev-master",
-        "miny/framework": "dev-master",
+        "miny/framework": "dev-master"
+    },
+    "require-dev": {
         "miny/annotation": "dev-master"
     },
     "authors": [
