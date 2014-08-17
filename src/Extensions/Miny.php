@@ -54,15 +54,15 @@ class Miny extends Extension
 
     public function getFunctions()
     {
-        $functions = array(
-            new TemplateFunction('route', array($this->routeGenerator, 'generate')),
-            new TemplateFunction('request', array($this, 'requestFunction')),
-        );
+        $functions = [
+            new TemplateFunction('route', [$this->routeGenerator, 'generate']),
+            new TemplateFunction('request', [$this, 'requestFunction']),
+        ];
 
         return $functions;
     }
 
-    public function requestFunction($url, $method = 'GET', array $post = array())
+    public function requestFunction($url, $method = 'GET', array $post = [])
     {
         $main = $this->container->get('\\Miny\\HTTP\\Response');
         $main->addContent(ob_get_clean());

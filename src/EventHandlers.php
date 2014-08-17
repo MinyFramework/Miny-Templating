@@ -17,14 +17,14 @@ use Miny\Controller\Events\ControllerFinishedEvent;
 use Miny\Controller\Events\ControllerLoadedEvent;
 use Miny\CoreEvents;
 use Miny\Factory\AbstractConfigurationTree;
-use Modules\Annotation\AnnotationReader;
 use Modules\Annotation\Comment;
+use Modules\Annotation\Reader;
 
 class EventHandlers
 {
     private $environment;
-    private $layoutMap = array();
-    private $assignedVariables = array();
+    private $layoutMap = [];
+    private $assignedVariables = [];
     private $currentLayout;
     private $annotation;
     private $configuration;
@@ -32,7 +32,7 @@ class EventHandlers
     public function __construct(
         AbstractConfigurationTree $configuration,
         Environment $environment,
-        AnnotationReader $annotation = null
+        Reader $annotation = null
     ) {
         $this->configuration = $configuration;
         $this->annotation    = $annotation;
@@ -41,16 +41,16 @@ class EventHandlers
 
     public function getHandledEvents()
     {
-        $events = array(
+        $events = [
             CoreEvents::CONTROLLER_LOADED   => $this,
             CoreEvents::CONTROLLER_FINISHED => $this
-        );
+        ];
 
         if (isset($this->configuration['exceptions'])) {
-            $events[CoreEvents::UNCAUGHT_EXCEPTION] = array($this, 'handleException');
+            $events[CoreEvents::UNCAUGHT_EXCEPTION] = [$this, 'handleException'];
         }
         if (isset($this->configuration['codes'])) {
-            $events[CoreEvents::FILTER_RESPONSE] = array($this, 'handleResponseCodes');
+            $events[CoreEvents::FILTER_RESPONSE] = [$this, 'handleResponseCodes'];
         }
 
         return $events;
@@ -88,10 +88,10 @@ class EventHandlers
 
             $this->environment->render(
                 $templateName,
-                array(
+                [
                     'request'  => $event->getRequest(),
                     'response' => $response
-                )
+                ]
             );
         }
     }
@@ -101,11 +101,11 @@ class EventHandlers
         $exception = $event->getException();
         $handlers  = $this->configuration['exceptions'];
         if (!is_array($handlers)) {
-            $this->environment->render($handlers, array('exception' => $exception));
+            $this->environment->render($handlers, ['exception' => $exception]);
         } else {
             foreach ($handlers as $class => $handler) {
                 if ($exception instanceof $class) {
-                    $this->environment->render($handler, array('exception' => $exception));
+                    $this->environment->render($handler, ['exception' => $exception]);
 
                     return;
                 }
@@ -121,7 +121,7 @@ class EventHandlers
         }
         if ($controller instanceof Controller) {
             // Add templating related methods
-            $controller->addMethods($this, array('assign', 'layout'));
+            $controller->addMethods($this, ['assign', 'layout']);
         }
     }
 

@@ -14,7 +14,6 @@ use Minty\Extensions\Core;
 use Minty\Extensions\Debug;
 use Minty\Extensions\Optimizer;
 use Miny\Application\BaseApplication;
-use Miny\AutoLoader;
 use Miny\Factory\Container;
 
 class Module extends \Miny\Modules\Module
@@ -22,38 +21,30 @@ class Module extends \Miny\Modules\Module
 
     public function defaultConfiguration()
     {
-        return array(
-            'options'                     => array(
-                'global_variables' => array(),
+        return [
+            'options'                     => [
+                'global_variables' => [],
                 'cache_namespace'  => 'Application\\Templating\\Cached',
                 'cache'            => 'templates/compiled',
                 'autoescape'       => 1,
                 'fallback_tag'     => 'print',
                 'debug'            => $this->application->isDeveloperEnvironment()
-            ),
+            ],
             'enable_node_tree_visualizer' => false,
             'template_loader'             => 'Minty\\TemplateLoaders\\FileLoader',
-            'template_loader_parameters'  => array(
+            'template_loader_parameters'  => [
                 '{@root}/templates',
                 'tpl'
-            )
-        );
+            ]
+        ];
     }
 
     public function init(BaseApplication $app)
     {
         $container = $app->getContainer();
-
-        $this->setupAutoLoader(
-            $container->get('\\Miny\\AutoLoader')
-        );
-
-        $module = $this;
         $container->addAlias(
             'Minty\\Environment',
-            function (Container $container) use ($module) {
-                return $module->setupEnvironment($container);
-            }
+            [$this, 'setupEnvironment']
         );
         $container->addAlias(
             'Minty\\AbstractTemplateLoader',
@@ -100,26 +91,12 @@ class Module extends \Miny\Modules\Module
         return $env;
     }
 
-    private function setupAutoLoader(AutoLoader $autoLoader)
-    {
-        $cacheDir = $this->getConfiguration('options:cache', false);
-        if ($cacheDir) {
-            if (!is_dir($cacheDir)) {
-                mkdir($cacheDir, 777, true);
-            }
-            $autoLoader->register(
-                '\\' . $this->getConfiguration('options:cache_namespace'),
-                $this->getConfiguration('options:cache')
-            );
-        }
-    }
-
     public function eventHandlers()
     {
         $container         = $this->application->getContainer();
         $controllerHandler = $container->get(
             __NAMESPACE__ . '\\EventHandlers',
-            array($this->getConfigurationTree())
+            [$this->getConfigurationTree()]
         );
 
         return $controllerHandler->getHandledEvents();
