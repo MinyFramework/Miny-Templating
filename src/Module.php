@@ -25,7 +25,9 @@ class Module extends \Miny\Modules\Module
             'options'                     => [
                 'global_variables' => [],
                 'cache_namespace'  => 'Application\\Templating\\Cached',
-                'cache'            => 'templates/compiled',
+                'cache'            => new CacheDriver(
+                    $this->getFileManager()
+                ),
                 'autoescape'       => 1,
                 'fallback_tag'     => 'print',
                 'debug'            => $this->application->isDeveloperEnvironment()
