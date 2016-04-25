@@ -9,6 +9,7 @@
 
 namespace Modules\Templating;
 
+use Annotiny\Reader;
 use Minty\Environment;
 use Miny\Application\Events\FilterResponseEvent;
 use Miny\Application\Events\UncaughtExceptionEvent;
@@ -17,8 +18,6 @@ use Miny\Controller\Events\ControllerFinishedEvent;
 use Miny\Controller\Events\ControllerLoadedEvent;
 use Miny\CoreEvents;
 use Miny\Factory\AbstractConfigurationTree;
-use Modules\Annotation\Comment;
-use Modules\Annotation\Reader;
 
 class EventHandlers
 {
@@ -202,7 +201,7 @@ class EventHandlers
      * @param $controller
      * @param $action
      *
-     * @return Comment
+     * @return \Annotiny\Comment
      */
     private function getControllerActionAnnotations($controller, $action)
     {

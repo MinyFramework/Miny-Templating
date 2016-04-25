@@ -10,7 +10,7 @@
         "miny/framework": "dev-master"
     },
     "require-dev": {
-        "miny/annotation": "dev-master"
+        "bugadani/annotiny": "dev-master"
     },
     "authors": [
         {
